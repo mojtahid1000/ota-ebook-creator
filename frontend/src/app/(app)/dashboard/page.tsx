@@ -53,7 +53,7 @@ export default function DashboardPage() {
   }
 
   function createNewProject() {
-    router.push("/ebook/new");
+    window.location.href = "/ebook/new";
   }
 
   return (
@@ -114,9 +114,7 @@ export default function DashboardPage() {
               <Card
                 key={project.id}
                 onClick={() =>
-                  router.push(
-                    `/ebook/${project.id}/step-${project.current_step}`
-                  )
+                  window.location.href = `/ebook/${project.id}/step-${project.current_step}`
                 }
               >
                 <div className="flex items-start justify-between mb-3">
