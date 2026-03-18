@@ -27,7 +27,7 @@ type TopicInfo = {
 type WritingStyle = { id: string; bn: string; en: string };
 type RewriteAngle = { id: string; bn: string };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 
 export default function Step9ContentPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -52,8 +52,8 @@ export default function Step9ContentPage() {
   async function loadStyles() {
     try {
       const [stylesRes, anglesRes] = await Promise.all([
-        fetch(`${API_URL}/api/agents/writing-styles`),
-        fetch(`${API_URL}/api/agents/rewrite-angles`),
+        fetch(`/api/agents/writing-styles`),
+        fetch(`/api/agents/rewrite-angles`),
       ]);
       if (stylesRes.ok) {
         const d = await stylesRes.json();

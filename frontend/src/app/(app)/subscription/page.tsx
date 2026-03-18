@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check, Crown, Zap, Star } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 
 type Plan = {
   id: string;
@@ -42,7 +42,7 @@ export default function SubscriptionPage() {
 
   async function loadPlans() {
     try {
-      const res = await fetch(`${API_URL}/api/payments/plans`);
+      const res = await fetch(`/api/payments/plans`);
       if (res.ok) {
         const data = await res.json();
         setPlans(data.plans || []);
@@ -71,7 +71,7 @@ export default function SubscriptionPage() {
         .eq("id", user.id)
         .single();
 
-      const res = await fetch(`${API_URL}/api/payments/checkout`, {
+      const res = await fetch(`/api/payments/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

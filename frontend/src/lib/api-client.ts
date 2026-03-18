@@ -1,8 +1,6 @@
 /**
- * API client for communicating with the Python backend.
+ * API client - uses Next.js API routes (no external backend needed).
  */
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export async function callAgent(
   step: number,
@@ -10,17 +8,15 @@ export async function callAgent(
   userId: string,
   userInput: Record<string, unknown> = {},
   stateData: Record<string, unknown> = {},
-  aiProvider: string = "claude"
 ) {
-  const response = await fetch(`${API_URL}/api/agents/run`, {
+  const response = await fetch("/api/agents/run", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      step,
       project_id: projectId,
       user_id: userId,
-      step,
       user_input: userInput,
-      ai_provider: aiProvider,
       state_data: stateData,
     }),
   });
@@ -32,12 +28,7 @@ export async function callAgent(
   return response.json();
 }
 
-export async function getAgentInfo() {
-  const response = await fetch(`${API_URL}/api/agents/info`);
-  return response.json();
-}
-
-export async function healthCheck() {
-  const response = await fetch(`${API_URL}/health`);
+export async function getSubNiches(mainNiche: string) {
+  const response = await fetch(`/api/agents/sub-niches?main_niche=${encodeURIComponent(mainNiche)}`);
   return response.json();
 }

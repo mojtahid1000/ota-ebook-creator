@@ -46,18 +46,16 @@ export default function Step2SubNichePage() {
     if (project?.main_niche) {
       setMainNiche(project.main_niche);
 
-      // Fetch sub-niches from backend knowledge
+      // Fetch sub-niches from local API route
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
         const res = await fetch(
-          `${API_URL}/api/agents/sub-niches?main_niche=${encodeURIComponent(project.main_niche)}`
+          `/api/agents/sub-niches?main_niche=${encodeURIComponent(project.main_niche)}`
         );
         if (res.ok) {
           const data = await res.json();
           setSubNiches(data.sub_niches || []);
         }
       } catch {
-        // Fallback: load from hardcoded data
         setSubNiches([]);
       }
     }

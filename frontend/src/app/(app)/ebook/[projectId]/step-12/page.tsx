@@ -11,7 +11,7 @@ import {
   AlertTriangle, Loader2, Check, PartyPopper,
 } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 
 type CoverPrompt = { style: string; dalle_prompt: string; description: string };
 

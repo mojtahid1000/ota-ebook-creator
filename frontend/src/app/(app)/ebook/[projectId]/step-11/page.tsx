@@ -10,7 +10,7 @@ import {
   FileText, Download, Loader2, Check, AlertTriangle, Settings,
 } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
 
 const FONT_OPTIONS = [
   { id: "Hind Siliguri", bn: "হিন্দ সিলিগুড়ি (আধুনিক)" },
@@ -85,7 +85,7 @@ export default function Step11ExportPage() {
     setError("");
     try {
       const data = await buildExportData();
-      const res = await fetch(`${API_URL}/api/exports/pdf`, {
+      const res = await fetch(`/api/exports/pdf`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -105,7 +105,7 @@ export default function Step11ExportPage() {
     setError("");
     try {
       const data = await buildExportData();
-      const res = await fetch(`${API_URL}/api/exports/docx`, {
+      const res = await fetch(`/api/exports/docx`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -122,7 +122,7 @@ export default function Step11ExportPage() {
 
   function downloadFile(downloadUrl: string, filename: string) {
     const link = document.createElement("a");
-    link.href = `${API_URL}${downloadUrl}`;
+    link.href = `${downloadUrl}`;
     link.download = filename;
     link.click();
   }
