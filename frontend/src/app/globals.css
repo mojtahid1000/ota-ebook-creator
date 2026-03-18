@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ota-orange: #FF6B35;
+    --ota-blue: #1E3A8A;
+    --ota-teal: #14B8A6;
+    --ota-dark: #1E293B;
+    --ota-light: #F8FAFC;
+  }
+
+  body {
+    @apply font-bangla text-slate-800 bg-white antialiased;
+  }
+
+  /* Bangla text optimization */
+  html[lang="bn"] body {
+    line-height: 1.7;
+    word-spacing: 0.05em;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-ota-orange hover:bg-ota-orange-dark text-white font-semibold
+           py-2.5 px-6 rounded-lg transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-ota-orange/50;
+  }
+
+  .btn-secondary {
+    @apply bg-ota-blue hover:bg-ota-blue-dark text-white font-semibold
+           py-2.5 px-6 rounded-lg transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-ota-blue/50;
+  }
+
+  .btn-outline {
+    @apply border-2 border-ota-orange text-ota-orange hover:bg-ota-orange
+           hover:text-white font-semibold py-2 px-6 rounded-lg
+           transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm
+           hover:shadow-md transition-shadow duration-200 p-6;
+  }
+
+  .step-indicator-active {
+    @apply bg-ota-orange text-white;
+  }
+
+  .step-indicator-completed {
+    @apply bg-ota-teal text-white;
+  }
+
+  .step-indicator-pending {
+    @apply bg-slate-200 text-slate-500;
+  }
+
+  /* Sepia mode for reading */
+  .sepia-mode {
+    background-color: #F4ECD8;
+    color: #5B4636;
+  }
+}

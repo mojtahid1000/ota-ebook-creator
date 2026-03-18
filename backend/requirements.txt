@@ -1,0 +1,15 @@
+anthropic==0.86.0
+fastapi==0.128.8
+fpdf2==2.8.4
+httpx==0.28.1
+openai==2.29.0
+pillow==11.3.0
+pydantic==2.12.5
+pydantic_core==2.41.5
+python-docx==1.2.0
+python-dotenv==1.2.1
+stripe==14.4.1
+supabase==2.28.2
+supabase-auth==2.28.2
+supabase-functions==2.28.2
+uvicorn==0.39.0
