@@ -50,7 +50,9 @@
       "mcp__324cbd51-bf51-4430-9e2e-3dc8d4c49d4a__search_docs",
       "Bash(git init:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh repo:*)",
+      "Bash(npx vercel:*)"
     ]
   }
 }
