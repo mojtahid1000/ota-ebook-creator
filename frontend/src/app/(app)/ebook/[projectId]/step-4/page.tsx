@@ -82,14 +82,10 @@ export default function Step4ProblemPage() {
         }
       );
 
-      if (result.success && result.state?.problem) {
-        const allProblems = [
-          result.state.problem.selected_problem,
-          ...(result.state.problem.other_options || []),
-        ].filter(Boolean);
+      if (result.success && result.data?.problems) {
+        const allProblems = result.data.problems;
         setProblems(allProblems);
 
-        // Save to project
         await supabase
           .from("ebook_projects")
           .update({

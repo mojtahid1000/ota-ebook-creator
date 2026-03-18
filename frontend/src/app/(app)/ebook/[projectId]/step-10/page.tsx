@@ -79,10 +79,10 @@ export default function Step10ReviewPage() {
         topics_content: topicsContent,
       });
 
-      if (result.success && result.state?.review) {
-        setReview(result.state.review);
+      if (result.success && result.data) {
+        setReview(result.data);
         await supabase.from("ebook_projects").update({
-          review_data: result.state.review,
+          review_data: result.data,
           updated_at: new Date().toISOString(),
         }).eq("id", projectId);
       } else {

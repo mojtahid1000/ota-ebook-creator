@@ -88,8 +88,8 @@ export default function Step5SolutionPage() {
         }
       );
 
-      if (result.success && result.state?.solutions) {
-        const allSolutions = result.state.solutions.selected_solutions || [];
+      if (result.success && result.data?.solutions) {
+        const allSolutions = result.data.solutions;
         setSolutions(allSolutions);
 
         await supabase

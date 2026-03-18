@@ -43,7 +43,7 @@ export default function Step12CoverPage() {
       });
 
       if (result.success) {
-        const raw = result.state?.covers_raw || {};
+        const raw = result.data || {};
         setCoverPrompts(raw.covers || []);
       } else {
         setError(result.error || "কভার প্রম্পট তৈরি করতে ব্যর্থ");
@@ -75,8 +75,8 @@ export default function Step12CoverPage() {
         review: project?.review_data || {},
       });
 
-      if (result.success && result.state?.covers?.front_options?.[promptIndex]?.image_url) {
-        setGeneratedImageUrl(result.state.covers.front_options[promptIndex].image_url);
+      if (result.success && result.data) {
+        setGeneratedImageUrl("generated");
       } else {
         setError("ছবি তৈরি করতে ব্যর্থ - DALL-E API চেক করুন");
       }
@@ -104,7 +104,7 @@ export default function Step12CoverPage() {
       });
 
       if (result.success) {
-        setDeliveryData(result.state?.delivery || {});
+        setDeliveryData(result.data || {});
         await supabase.from("ebook_projects").update({
           status: "completed", updated_at: new Date().toISOString(),
         }).eq("id", projectId);

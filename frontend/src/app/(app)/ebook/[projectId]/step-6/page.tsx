@@ -74,10 +74,10 @@ export default function Step6ResearchPage() {
         },
       });
 
-      if (result.success && result.state?.research) {
-        setResearch(result.state.research);
+      if (result.success && result.data) {
+        setResearch(result.data);
         await supabase.from("ebook_projects").update({
-          research_data: result.state.research,
+          research_data: result.data,
           updated_at: new Date().toISOString(),
         }).eq("id", projectId);
       } else {

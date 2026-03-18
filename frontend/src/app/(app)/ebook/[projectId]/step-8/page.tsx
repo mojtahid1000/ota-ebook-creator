@@ -95,8 +95,8 @@ export default function Step8OutlinePage() {
         },
       });
 
-      if (result.success && result.state?.outline) {
-        const outline = result.state.outline;
+      if (result.success && result.data) {
+        const outline = result.data;
         setChapters(outline.chapters || []);
         setTotalPages(outline.total_estimated_pages || 0);
         await supabase.from("ebook_projects").update({

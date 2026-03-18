@@ -156,28 +156,20 @@ export default function Step9ContentPage() {
       }, stateData);
 
       if (result.success) {
-        // Find the written topic in the state
-        const writtenTopics = result.state?.topics_content || [];
-        const written = writtenTopics.find(
-          (t: { chapter_number: number; topic_number: number }) =>
-            t.chapter_number === currentTopic.chapter_number &&
-            t.topic_number === currentTopic.topic_number
-        );
+        const markdown = result.raw_text || result.data?.content_markdown || "";
+        const wordCount = result.data?.word_count || markdown.split(/\s+/).length;
 
-        if (written) {
-          setContent(written.content_markdown || "");
-          setCurrentTopic((prev) =>
-            prev ? { ...prev, content: written.content_markdown, word_count: written.word_count, status: "review" } : prev
-          );
-          // Update in topics list
-          setTopics((prev) =>
-            prev.map((t) =>
-              t.chapter_number === currentTopic.chapter_number && t.topic_number === currentTopic.topic_number
-                ? { ...t, content: written.content_markdown, word_count: written.word_count, status: "review", writing_style: selectedStyle }
-                : t
-            )
-          );
-        }
+        setContent(markdown);
+        setCurrentTopic((prev) =>
+          prev ? { ...prev, content: markdown, word_count: wordCount, status: "review" } : prev
+        );
+        setTopics((prev) =>
+          prev.map((t) =>
+            t.chapter_number === currentTopic.chapter_number && t.topic_number === currentTopic.topic_number
+              ? { ...t, content: markdown, word_count: wordCount, status: "review", writing_style: selectedStyle }
+              : t
+          )
+        );
         setPhase("review");
       } else {
         setError(result.error || "কন্টেন্ট লিখতে ব্যর্থ");
@@ -219,16 +211,10 @@ export default function Step9ContentPage() {
       }, stateData);
 
       if (result.success) {
-        const writtenTopics = result.state?.topics_content || [];
-        const written = writtenTopics.find(
-          (t: { chapter_number: number; topic_number: number }) =>
-            t.chapter_number === currentTopic.chapter_number &&
-            t.topic_number === currentTopic.topic_number
-        );
-        if (written) {
-          setContent(written.content_markdown || "");
-          setCurrentTopic((prev) => prev ? { ...prev, content: written.content_markdown, word_count: written.word_count } : prev);
-        }
+        const markdown = result.raw_text || result.data?.content_markdown || "";
+        const wordCount = result.data?.word_count || markdown.split(/\s+/).length;
+        setContent(markdown);
+        setCurrentTopic((prev) => prev ? { ...prev, content: markdown, word_count: wordCount } : prev);
         setPhase("review");
       } else {
         setError(result.error || "রিরাইট করতে ব্যর্থ");

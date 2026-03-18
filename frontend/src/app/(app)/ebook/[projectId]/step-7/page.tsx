@@ -68,11 +68,8 @@ export default function Step7TitlePage() {
         research: project?.research_data || { executive_summary: "" },
       });
 
-      if (result.success && result.state?.book_title) {
-        const allTitles = [
-          result.state.book_title.selected_title,
-          ...(result.state.book_title.other_options || []),
-        ].filter(Boolean);
+      if (result.success && result.data?.titles) {
+        const allTitles = result.data.titles;
         setTitles(allTitles);
         await supabase.from("ebook_projects").update({
           title_data: { titles: allTitles },
