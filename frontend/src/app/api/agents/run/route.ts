@@ -7,63 +7,70 @@ const anthropic = new Anthropic({
 
 // Agent configs
 const AGENTS: Record<number, { name: string; model: string; systemPrompt: string }> = {
+  2: {
+    name: "AvatarArchitect",
+    model: "claude-sonnet-4-20250514",
+    systemPrompt: `You are AvatarArchitect. Generate specific pain points, goals, and emotional triggers for a target reader.
+Respond in Bangla with English terms in parentheses.
+OUTPUT: Valid JSON: { "pain_points": [{"text": "বাংলায় সমস্যা", "intensity": 8}], "goals": [{"text": "বাংলায় লক্ষ্য"}], "emotional_triggers": [{"text": "বাংলায় ট্রিগার"}], "daily_struggles": ["সমস্যা ১"], "desired_transformation": "কাঙ্ক্ষিত পরিবর্তন" }`,
+  },
   3: {
     name: "ProblemDetective",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are ProblemDetective. Generate exactly 10 specific, ebook-worthy problems.
 Respond in Bangla with English terms in parentheses.
 OUTPUT: Valid JSON: { "problems": [{ "title": "...", "description": "...", "urgency_score": 8, "emotional_weight": 9, "why_great_topic": "..." }] }`,
   },
   4: {
     name: "SolutionStrategist",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are SolutionStrategist. Generate 5-8 solution approaches.
 Respond in Bangla with English terms in parentheses.
 OUTPUT: Valid JSON: { "solutions": [{ "name": "...", "description": "...", "pros": ["..."], "cons": ["..."], "estimated_pages": 15, "needs_disclaimer": false }] }`,
   },
   5: {
     name: "ResearchAnalyst",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are ResearchAnalyst. Conduct deep research.
 Respond in Bangla with English for technical terms.
 OUTPUT: Valid JSON: { "executive_summary": "...", "statistics": [{"fact":"...","source":"..."}], "expert_quotes": [{"quote":"...","author":"...","role":"..."}], "case_studies": [{"title":"...","summary":"..."}], "confidence_score": 8, "disclaimers": [], "bangladesh_context": "..." }`,
   },
   6: {
     name: "BookNameCreator",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are BookNameCreator. Generate 10 compelling book title + tagline pairs using different formulas.
 Respond in Bangla with English in brackets.
 OUTPUT: Valid JSON: { "titles": [{ "title": "বাংলা শিরোনাম", "title_en": "English", "subtitle": "...", "tagline": "...", "formula": "How-To", "strength_score": 8 }] }`,
   },
   7: {
     name: "OutlineArchitect",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are OutlineArchitect. Design complete ebook outline with 10-15 chapters.
 Respond in Bangla.
 OUTPUT: Valid JSON: { "total_chapters": 12, "total_estimated_pages": 120, "chapters": [{ "number": 1, "title": "...", "topics": [{"title":"...","estimated_pages":3,"content_types":["text","list"],"reader_takeaway":"..."}], "estimated_pages": 10 }] }`,
   },
   8: {
     name: "ContentWriter",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are ContentWriter. Write ONE topic with high quality.
 Include: H2 headline, opening hook, H3 subheadings, quotes (> blockquote), **Pro Tip:** callout, **Key Takeaway:** box, transition.
 Write in Bangla with English technical terms. Output pure markdown.`,
   },
   9: {
     name: "EditorReviewer",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are EditorReviewer. Review the complete ebook.
 OUTPUT: Valid JSON: { "quality_score": 8, "readability_score": 7, "engagement_score": 8, "actionability_score": 7, "overall_feedback": "...", "revision_flags": ["..."], "book_description": "..." }`,
   },
   11: {
     name: "CoverDesigner",
-    model: "claude-sonnet-4-6-20250514",
+    model: "claude-sonnet-4-20250514",
     systemPrompt: `You are CoverDesigner. Generate 4 DALL-E prompts for book cover backgrounds (NO text in images).
 OUTPUT: Valid JSON: { "covers": [{ "style": "...", "dalle_prompt": "...", "description": "বাংলায়" }], "back_cover_prompt": "...", "recommended_text_color": "#FFFFFF" }`,
   },
   12: {
     name: "DeliveryManager",
-    model: "claude-haiku-4-5-20241022",
+    model: "claude-3-haiku-20240307",
     systemPrompt: `You are DeliveryManager. Create completion summary.
 OUTPUT: Valid JSON: { "summary": { "title": "...", "total_chapters": 12, "total_pages": 120, "total_words": 35000 }, "congratulations_message": "বাংলায় অভিনন্দন", "next_steps": ["..."] }`,
   },
@@ -96,7 +103,10 @@ export async function POST(request: NextRequest) {
     userPrompt += `Problem: ${problem.title || ""}\n`;
     userPrompt += `Solutions: ${solutions.map((s: { name: string }) => s.name).join(", ")}\n`;
 
-    if (step === 3) {
+    if (step === 2) {
+      userPrompt += `\nAge: ${avatar.age_range || "25-34"}, Gender: ${avatar.gender || "all"}, Income: ${avatar.income_level || "middle"}, Education: ${avatar.education || "bachelors"}\n`;
+      userPrompt += `\nGenerate 12 specific pain points (with intensity 1-10), 8 goals, 5 emotional triggers, 5 daily struggles, and desired transformation for this reader persona in Bangladesh.`;
+    } else if (step === 3) {
       userPrompt += `\nPain points: ${(avatar.pain_points || []).join(", ")}\nGoals: ${(avatar.goals || []).join(", ")}\n`;
       userPrompt += `\nGenerate 10 specific problems for this reader in Bangladesh. Rank by ebook potential.`;
     } else if (step === 4) {

@@ -54,7 +54,8 @@
       "Bash(gh repo:*)",
       "Bash(npx vercel:*)",
       "Bash(git push:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python3 -c \":*)"
     ]
   }
 }
