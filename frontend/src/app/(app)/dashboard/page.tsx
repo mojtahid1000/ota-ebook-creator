@@ -52,34 +52,8 @@ export default function DashboardPage() {
     setLoading(false);
   }
 
-  async function createNewProject() {
-    if (!user) return;
-
-    // Insert project
-    const { error: insertError } = await supabase
-      .from("ebook_projects")
-      .insert({ user_id: user.id, status: "draft", current_step: 1 });
-
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      return;
-    }
-
-    // Fetch the latest created project
-    const { data, error: fetchError } = await supabase
-      .from("ebook_projects")
-      .select("id")
-      .eq("user_id", user.id)
-      .eq("status", "draft")
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    if (data) {
-      router.push(`/ebook/${data.id}/step-1`);
-    } else {
-      console.error("Fetch error:", fetchError);
-    }
+  function createNewProject() {
+    router.push("/ebook/new");
   }
 
   return (
