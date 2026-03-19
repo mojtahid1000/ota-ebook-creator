@@ -5,6 +5,7 @@ import {
   BorderStyle,
 } from "docx";
 
+export const runtime = "nodejs";
 export const maxDuration = 60;
 
 function parseBoldText(text: string, fontSize: number): TextRun[] {

@@ -118,19 +118,36 @@ export default function Step11ExportPage() {
         body: JSON.stringify(data),
       });
       if (res.ok) {
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        const filename = `${data.title.replace(/[^a-zA-Z0-9\u0980-\u09FF]/g, "_")}.docx`;
-        link.href = url;
-        link.download = filename;
-        link.click();
-        URL.revokeObjectURL(url);
-        setDocxResult({ format: "docx", filename, download_url: "", size_bytes: blob.size });
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          // Error response
+          const errData = await res.json();
+          setError(errData.error || "DOCX তৈরি করতে ব্যর্থ");
+        } else {
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          const filename = `${data.title.replace(/[^a-zA-Z0-9\u0980-\u09FF]/g, "_")}.docx`;
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          setDocxResult({ format: "docx", filename, download_url: "", size_bytes: blob.size });
+        }
       } else {
-        setError("DOCX তৈরি করতে ব্যর্থ");
+        try {
+          const errData = await res.json();
+          setError(errData.error || "DOCX তৈরি করতে ব্যর্থ");
+        } catch {
+          setError(`DOCX তৈরি করতে ব্যর্থ (${res.status})`);
+        }
       }
-    } catch { setError("সার্ভার সংযোগ ব্যর্থ"); }
+    } catch (err) {
+      console.error("DOCX export error:", err);
+      setError("সার্ভার সংযোগ ব্যর্থ");
+    }
     setGeneratingDocx(false);
   }
 
@@ -221,7 +238,7 @@ export default function Step11ExportPage() {
             {pdfResult ? (
               <div>
                 <p className="text-sm text-ota-teal flex items-center justify-center gap-1 mb-3">
-                  <Check className="w-4 h-4" /> তৈরি হয়েছে ({Math.round(pdfResult.size_bytes / 1024)}KB)
+                  <Check className="w-4 h-4" /> প্রিন্ট উইন্ডো খোলা হয়েছে
                 </p>
                 <Button onClick={exportPdf} size="md">
                   <Download className="w-4 h-4" /> আবার প্রিন্ট করুন

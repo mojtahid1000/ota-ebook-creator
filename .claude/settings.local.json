@@ -58,7 +58,10 @@
       "Bash(python3 -c \":*)",
       "Bash(curl -s -X POST \"https://frontend-nine-beige-18.vercel.app/api/agents/run\" -H \"Content-Type: application/json\" -d '{\"\"\"\"step\"\"\"\":2,\"\"\"\"state_data\"\"\"\":{\"\"\"\"niche\"\"\"\":{\"\"\"\"main_niche\"\"\"\":\"\"\"\"Health\"\"\"\",\"\"\"\"sub_niche\"\"\"\":\"\"\"\"ওজন কমানো\"\"\"\"},\"\"\"\"avatar\"\"\"\":{\"\"\"\"age_range\"\"\"\":\"\"\"\"25-34\"\"\"\",\"\"\"\"gender\"\"\"\":\"\"\"\"male\"\"\"\",\"\"\"\"income_level\"\"\"\":\"\"\"\"middle\"\"\"\",\"\"\"\"education\"\"\"\":\"\"\"\"bachelors\"\"\"\"}}}')",
       "Bash(cd /Users/mojo/Documents/E-books/Ebook.Claude/Full_Book_Creator/frontend grep -rn \"result\\\\.state\\\\?\" src/app/\\\\\\(app\\\\\\)/ebook/ --include=\"*.tsx\")",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(grep '\"\"docx\"\"' package.json)",
+      "Bash(curl -s -X POST http://localhost:3000/api/exports/docx -H \"Content-Type: application/json\" -d '{\"\"title\"\":\"\"Test\"\",\"\"chapters\"\":[{\"\"title\"\":\"\"Ch1\"\",\"\"content\"\":\"\"Hello world\"\"}]}' -o /tmp/test.docx -w \"%{http_code}\")",
+      "mcp__03532a11-541c-4b89-a3b2-2f97a00480be__get_runtime_logs"
     ]
   }
 }
