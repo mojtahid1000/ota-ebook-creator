@@ -80,15 +80,28 @@ export default function Step10ReviewPage() {
       });
 
       if (result.success && result.data) {
-        setReview(result.data);
+        const reviewData: ReviewResult = {
+          quality_score: result.data.quality_score || 7,
+          readability_score: result.data.readability_score || 7,
+          engagement_score: result.data.engagement_score || 7,
+          actionability_score: result.data.actionability_score || 7,
+          overall_feedback: result.data.overall_feedback || "",
+          strengths: result.data.strengths || [],
+          revision_flags: result.data.revision_flags || [],
+          book_description: result.data.book_description || "",
+        };
+        setReview(reviewData);
         await supabase.from("ebook_projects").update({
-          review_data: result.data,
+          review_data: reviewData,
           updated_at: new Date().toISOString(),
         }).eq("id", projectId);
       } else {
         setError(result.error || "রিভিউ তৈরি করতে ব্যর্থ");
       }
-    } catch { setError("সার্ভারের সাথে সংযোগ করতে পারছে না"); }
+    } catch (err) {
+      console.error("Review error:", err);
+      setError("সার্ভারের সাথে সংযোগ করতে পারছে না");
+    }
     setGenerating(false);
   }
 
@@ -149,7 +162,7 @@ export default function Step10ReviewPage() {
           </div>
 
           {/* Revision Flags */}
-          {review.revision_flags.length > 0 && (
+          {(review.revision_flags?.length || 0) > 0 && (
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5">
               <h3 className="font-semibold text-amber-700 flex items-center gap-2 mb-3">
                 <AlertTriangle className="w-5 h-5" /> সংশোধনের পরামর্শ ({review.revision_flags.length})

@@ -22,7 +22,13 @@ export async function callAgent(
   });
 
   if (!response.ok) {
-    throw new Error(`Agent call failed: ${response.statusText}`);
+    // Try to get error details from body
+    try {
+      const errorBody = await response.json();
+      return { success: false, error: errorBody.error || `Agent call failed: ${response.statusText}` };
+    } catch {
+      return { success: false, error: `Agent call failed: ${response.status} ${response.statusText}` };
+    }
   }
 
   return response.json();
