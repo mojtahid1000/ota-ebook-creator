@@ -92,7 +92,14 @@ export default function Step11ExportPage() {
       });
       if (res.ok) {
         const result = await res.json();
-        setPdfResult(result);
+        // Open HTML in new window for print-to-PDF
+        const printWindow = window.open("", "_blank");
+        if (printWindow) {
+          printWindow.document.write(result.html);
+          printWindow.document.close();
+          setTimeout(() => printWindow.print(), 1000);
+        }
+        setPdfResult({ format: "pdf", filename: result.filename, download_url: "", size_bytes: 0 });
       } else {
         setError("PDF তৈরি করতে ব্যর্থ");
       }
@@ -111,20 +118,20 @@ export default function Step11ExportPage() {
         body: JSON.stringify(data),
       });
       if (res.ok) {
-        const result = await res.json();
-        setDocxResult(result);
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const filename = `${data.title.replace(/[^a-zA-Z0-9\u0980-\u09FF]/g, "_")}.docx`;
+        link.href = url;
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(url);
+        setDocxResult({ format: "docx", filename, download_url: "", size_bytes: blob.size });
       } else {
         setError("DOCX তৈরি করতে ব্যর্থ");
       }
     } catch { setError("সার্ভার সংযোগ ব্যর্থ"); }
     setGeneratingDocx(false);
-  }
-
-  function downloadFile(downloadUrl: string, filename: string) {
-    const link = document.createElement("a");
-    link.href = `${downloadUrl}`;
-    link.download = filename;
-    link.click();
   }
 
   async function handleConfirm() {
@@ -216,8 +223,8 @@ export default function Step11ExportPage() {
                 <p className="text-sm text-ota-teal flex items-center justify-center gap-1 mb-3">
                   <Check className="w-4 h-4" /> তৈরি হয়েছে ({Math.round(pdfResult.size_bytes / 1024)}KB)
                 </p>
-                <Button onClick={() => downloadFile(pdfResult.download_url, pdfResult.filename)} size="md">
-                  <Download className="w-4 h-4" /> ডাউনলোড PDF
+                <Button onClick={exportPdf} size="md">
+                  <Download className="w-4 h-4" /> আবার প্রিন্ট করুন
                 </Button>
               </div>
             ) : (
@@ -241,8 +248,8 @@ export default function Step11ExportPage() {
                 <p className="text-sm text-ota-teal flex items-center justify-center gap-1 mb-3">
                   <Check className="w-4 h-4" /> তৈরি হয়েছে ({Math.round(docxResult.size_bytes / 1024)}KB)
                 </p>
-                <Button onClick={() => downloadFile(docxResult.download_url, docxResult.filename)} variant="secondary" size="md">
-                  <Download className="w-4 h-4" /> ডাউনলোড DOCX
+                <Button onClick={exportDocx} variant="secondary" size="md">
+                  <Download className="w-4 h-4" /> আবার ডাউনলোড করুন
                 </Button>
               </div>
             ) : (
