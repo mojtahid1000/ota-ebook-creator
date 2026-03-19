@@ -61,7 +61,11 @@
       "Bash(npm ls:*)",
       "Bash(grep '\"\"docx\"\"' package.json)",
       "Bash(curl -s -X POST http://localhost:3000/api/exports/docx -H \"Content-Type: application/json\" -d '{\"\"title\"\":\"\"Test\"\",\"\"chapters\"\":[{\"\"title\"\":\"\"Ch1\"\",\"\"content\"\":\"\"Hello world\"\"}]}' -o /tmp/test.docx -w \"%{http_code}\")",
-      "mcp__03532a11-541c-4b89-a3b2-2f97a00480be__get_runtime_logs"
+      "mcp__03532a11-541c-4b89-a3b2-2f97a00480be__get_runtime_logs",
+      "Bash(find /Users/mojo/Documents/E-books/Ebook.Claude/Full_Book_Creator -maxdepth 2 -type f \\\\\\(-name .env* -o -name supabase.json -o -name *.sql \\\\\\))",
+      "Bash(ls -R /Users/mojo/Documents/E-books/Ebook.Claude/Full_Book_Creator/frontend/src/app/\\\\\\(app\\\\\\)/)",
+      "Bash(ls -R /Users/mojo/Documents/E-books/Ebook.Claude/Full_Book_Creator/frontend/src/app/\\\\\\(auth\\\\\\)/)",
+      "Bash(SUPABASE_URL=\"https://lhsanbajkzzccwnuhjov.supabase.co\" SERVICE_KEY=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxoc2FuYmFqa3p6Y2N3bnVoam92Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg2ODQwMCwiZXhwIjoyMDg5NDQ0NDAwfQ.smFctriNPI5Z9RJx7b2JBLkarjE0kzes-f5lypI35-w\" __NEW_LINE_221fb5b1e3dc9e62__ curl -s -X POST \"$SUPABASE_URL/rest/v1/rpc/execute_sql\" -H \"apikey: $SERVICE_KEY\" -H \"Authorization: Bearer $SERVICE_KEY\" -H \"Content-Type: application/json\" -d '{}')"
     ]
   }
 }

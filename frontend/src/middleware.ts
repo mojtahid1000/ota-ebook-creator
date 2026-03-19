@@ -34,7 +34,8 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/dashboard") ||
     request.nextUrl.pathname.startsWith("/profile") ||
     request.nextUrl.pathname.startsWith("/subscription") ||
-    request.nextUrl.pathname.startsWith("/ebook");
+    request.nextUrl.pathname.startsWith("/ebook") ||
+    request.nextUrl.pathname.startsWith("/admin");
 
   if (!user && isProtected) {
     const url = request.nextUrl.clone();
